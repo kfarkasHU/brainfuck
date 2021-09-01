@@ -1,20 +1,75 @@
 <html>
     <head>
+        <!-- utils -->
+        <script src="./example-model.js"></script>
+        <script src="./examples.js"></script>
+        <!-- examples here -->
+        <script src="./examples/helloworld.js"></script>
+        <script src="./examples/fill0.js"></script>
+        <script src="./examples/fill1.js"></script>
+        <script src="./examples/fill255.js"></script>
+        <!-- core -->
         <script src="./bfi2.js"></script>
     </head>
     <body>
+        <select id="examples">
+            <option disabled selected>Please select...</option>
+        </select>
         <div id="demo">
             <b>Result:</b>
         </div>
         <script>
+            const interpreter = new BrainfuckJS();
+            const resetCode = "";
+
             document.addEventListener("DOMContentLoaded", () => {
-                const interpreter = new BrainfuckJS();
-                const code = "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+."; // Simple hello world.
+                initInterpreter();
+                fillExamples();
+            });
+
+            function initInterpreter() {
                 interpreter.onOut(function (val) {
                     document.getElementById("demo").innerHTML += val;
+                    console.log(val);
+                });
+            }
+
+            function fillExamples() {
+                const examples = Examples.getAll();
+                const container = document.getElementById("examples");
+                for(const example of examples) {
+                    const nameNode = document.createTextNode(example.name);
+                    const optionNode = document.createElement("option");
+                    optionNode.appendChild(nameNode);
+                    container.appendChild(optionNode);
+                }
+                container.addEventListener("change", onExampleSelected);
+            }
+
+            function onExampleSelected(event) {
+                const name = event.target.value;
+                const example = Examples.find(name);
+                run(example);
+            }
+
+            function run(example, isReset = true) {
+                isReset && reset();
+                const code = example.code;
+                const input = example.input;
+
+                let inputIndex = 0;
+                interpreter.onRead(function () {
+                    return input[inputIndex++];
                 });
                 interpreter.interpret(code);
-            });
+            }
+
+            function reset() {
+                // run(resetCode, false);
+                interpreter.onRead(function () { return 10; });
+                document.getElementById("demo").innerHTML = "<b>Result:</b> ";
+
+            }
         </script>
     </body>
 </html>
