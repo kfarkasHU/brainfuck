@@ -1,8 +1,8 @@
 const RegistersCount = 30000;
 
 class BrainfuckJS {
-    _inCallback = (msg) => console.log(msg);
-    _outCallback = () => 10;
+    _inCallback =  () => 10;
+    _outCallback = (msg) => console.log(msg);
 
     /**
      * Pointer value.
