@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <script src="./bfi2.js"></script>
+    </head>
+    <body>
+        <div id="demo">
+            <b>Result:</b>
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const interpreter = new BrainfuckJS();
+                const code = "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+."; // Simple hello world.
+                interpreter.onOut(function (val) {
+                    document.getElementById("demo").innerHTML += val;
+                });
+                interpreter.interpret(code);
+            });
+        </script>
+    </body>
+</html>
