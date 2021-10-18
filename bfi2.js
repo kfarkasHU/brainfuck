@@ -32,7 +32,6 @@ class BrainfuckJS {
                 case "]": this._jumpLeft(bfCode); break;
             }
         }
-        console.log(this._r);
     }
 
     onOut = (callback) => {
@@ -83,14 +82,11 @@ class BrainfuckJS {
     _jumpRight = (bfCode) => {
         if(this._r[this._p] !== 0) return;
         this._pc = this.__findNext(bfCode) + 1;
-        console.log("_jumpRight", this._pc);
     }
 
     _jumpLeft = (bfCode) => {
         if(this._r[this._p] === 0) return;
-        console.log("_jumpLeft 1", this._pc);
         this._pc = this.__findPrevious(bfCode);
-        console.log("_jumpLeft 2", this._pc);
     }
 
     __findNext = (bfCode) => {
